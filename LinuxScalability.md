@@ -6,9 +6,9 @@ An Analysis of Linux Scalability to Many Cores 阅读报告
 
 ##背景##
 ####why need to do####
-啊啊啊啊啊
+
 ####how previous research do####
-去去去去去去去去
+
 ####the main contribution of this paper####
 >1. 一组名为MOSBENCH的benchmark，用来评测操作系统的可扩展性
 >2. 16个对Linux 2.6.35-rc5 kernel的改善，命名为PK(patched kernel)
@@ -55,3 +55,11 @@ Metis是多核单服务器MapRedue文件库。本文用它来生成反索引。�
 
 很多症状表明延迟都与cache缺失有关。每个core有一个cache时，当一个
 core想要写缓存别的core已缓存的内容，则要将别的core里的缓存信息无效掉。类似等等。从片外读数据需要很长的时钟周期，所以共享易变的数据会比预期降低性能。
+
+####多核包处理####
+传输扩展：Linux简单地把出硬件队列的包放在当前的核上，对于要来的包，网卡提供一个接口来配置硬件使得在一个特定核上的具体队列里的包满足特定条件，如源IP地址和端口号。这种设置对长链接好而对短的不好。
+本文通过修改accpet，使硬件能决定哪个核以及核上哪个线程会来处理即将到来的包。
+
+####模糊计数器####
+Linux使用共享的计数器在多核下会成为一个瓶颈，因为很多核会并发地去更新它。
+本文解决：提出sloppy counter，
